@@ -157,6 +157,109 @@
         </div>
 
       </section>
+      
+      {% for feature in features %}
+      {% ifequal feature.type "feature-schedule" %}
+      {% if feature.days|not-empty %}
+      <div class="uv-section">
+        <div class="uv-section__header">
+          <h2 class="uv-section__title">{{ feature.name }}</h2>
+        </div>
+        <div class="uv-slider super-slider">
+          <div class="uv-slider__controls">
+            <span class="uv-slider__controls-item uv-slider__controls-item--prev schedule-dates-prev"></span>
+            <span class="uv-slider__controls-item uv-slider__controls-item--next schedule-dates-next"></span>
+          </div>
+          <ul class="uv-slider__pager schedule-dates">
+          {% for day in feature.days %}
+            {% if day.sessions|not-empty %}
+              <li data-slider="date" class="uv-slider__pager-item _clr-bc-hover clr-bc-active">{{ day.date|date:"dd MMMMM" }}</li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+          <div class="uv-slider__container">
+            <div class="schedule-days">
+              {% for day in feature.days %}
+              {% if day.sessions|not-empty %}
+              <div data-slider="day" class="uv-slider__schedule-item uv-card__stack">
+                {% for session in day.sessions|sort-by:"startTime" %}
+                <div data-link="{{session.id}}" class="session  session--full details_link">
+                  <div class="session__label clr-bg clr-text">
+                    <span>
+                    {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                    {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                    </span>
+                  </div>
+                  <div class="session__content">
+                    {% if session.title|not-empty %}
+                    <h5 class="session__title">{{ session.title }}</h5>
+                    {% endif %}
+                    <div class="session__body">
+                      <p class="session__info">
+                        <span class="session__time">
+                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        <span class="session__time-icon"></span>
+                        <span class="session__time">
+                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.endTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.endTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        {% if session.location %}
+                        <span class="session__location">{{ session.location }}</span>
+                        {% endif %}
+                      </p>
+                      {% if session.speakers|not-empty %}
+                      <div class="session__speakers">
+                        {% for spid in session.speakers %}
+                        {% with speaker=speakers|by-id:@spid %}
+                        {% if speaker.photo%}
+                        <p class="uv-popover uv-popover--top">
+                          <a data-link="{{speaker.id}}" class="session__speakers-img details_link" style="background-image: url({{ speaker.photo }})"></a>
+                          <span class="uv-popover__body session__speakers-popover">
+                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
+                          </span>
+                        </p>
+                        {% else %}
+                        <p class="uv-popover uv-popover--top">
+                          <a data-link="{{speaker.id}}" style="background-color: {{speaker.id|color}}" class="session__speakers-placeholder details_link">
+                            {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
+                          </a>
+                          <span class="uv-popover__body session__speakers-popover">
+                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
+                          </span>
+                        </p>
+                        {% endif %}
+                        {% endwith %}
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% if session.track|not-empty %}
+                  <div class="tracks tracks--vertical">
+                    {% for tid in session.track %}
+                    {% with track=tracks|by-id:@tid %}
+                    <div class="tracks__item">
+                      <div style="background-color:{{track.color}};" class="tracks__bullet"></div>
+                      <div class="tracks__name">{{track.title}}</div>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endifequal %}
+      {% endfor %}
 
       {% for feature in features %}
       {% ifunequal feature.speakers|length 0 %}
@@ -320,109 +423,6 @@
         </div>
       </section>
       {% endifunequal %}
-      {% endfor %}
-
-      {% for feature in features %}
-      {% ifequal feature.type "feature-schedule" %}
-      {% if feature.days|not-empty %}
-      <div class="uv-section">
-        <div class="uv-section__header">
-          <h2 class="uv-section__title">{{ feature.name }}</h2>
-        </div>
-        <div class="uv-slider super-slider">
-          <div class="uv-slider__controls">
-            <span class="uv-slider__controls-item uv-slider__controls-item--prev schedule-dates-prev"></span>
-            <span class="uv-slider__controls-item uv-slider__controls-item--next schedule-dates-next"></span>
-          </div>
-          <ul class="uv-slider__pager schedule-dates">
-          {% for day in feature.days %}
-            {% if day.sessions|not-empty %}
-              <li data-slider="date" class="uv-slider__pager-item _clr-bc-hover clr-bc-active">{{ day.date|date:"dd MMMMM" }}</li>
-            {% endif %}
-          {% endfor %}
-          </ul>
-          <div class="uv-slider__container">
-            <div class="schedule-days">
-              {% for day in feature.days %}
-              {% if day.sessions|not-empty %}
-              <div data-slider="day" class="uv-slider__schedule-item uv-card__stack">
-                {% for session in day.sessions|sort-by:"startTime" %}
-                <div data-link="{{session.id}}" class="session  session--full details_link">
-                  <div class="session__label clr-bg clr-text">
-                    <span>
-                    {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
-                    {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
-                    </span>
-                  </div>
-                  <div class="session__content">
-                    {% if session.title|not-empty %}
-                    <h5 class="session__title">{{ session.title }}</h5>
-                    {% endif %}
-                    <div class="session__body">
-                      <p class="session__info">
-                        <span class="session__time">
-                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
-                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
-                        </span>
-                        <span class="session__time-icon"></span>
-                        <span class="session__time">
-                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.endTime|date:"hh:mm a"}}{% endifequal%}
-                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.endTime|date:"HH:mm"}} {% endifequal%}
-                        </span>
-                        {% if session.location %}
-                        <span class="session__location">{{ session.location }}</span>
-                        {% endif %}
-                      </p>
-                      {% if session.speakers|not-empty %}
-                      <div class="session__speakers">
-                        {% for spid in session.speakers %}
-                        {% with speaker=speakers|by-id:@spid %}
-                        {% if speaker.photo%}
-                        <p class="uv-popover uv-popover--top">
-                          <a data-link="{{speaker.id}}" class="session__speakers-img details_link" style="background-image: url({{ speaker.photo }})"></a>
-                          <span class="uv-popover__body session__speakers-popover">
-                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
-                          </span>
-                        </p>
-                        {% else %}
-                        <p class="uv-popover uv-popover--top">
-                          <a data-link="{{speaker.id}}" style="background-color: {{speaker.id|color}}" class="session__speakers-placeholder details_link">
-                            {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
-                          </a>
-                          <span class="uv-popover__body session__speakers-popover">
-                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
-                          </span>
-                        </p>
-                        {% endif %}
-                        {% endwith %}
-                        {% endfor %}
-                      </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                  {% if session.track|not-empty %}
-                  <div class="tracks tracks--vertical">
-                    {% for tid in session.track %}
-                    {% with track=tracks|by-id:@tid %}
-                    <div class="tracks__item">
-                      <div style="background-color:{{track.color}};" class="tracks__bullet"></div>
-                      <div class="tracks__name">{{track.title}}</div>
-                    </div>
-                    {% endwith %}
-                    {% endfor %}
-                  </div>
-                  {% endif %}
-                </div>
-                {% endfor %}
-              </div>
-              {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-      {% endifequal %}
       {% endfor %}
 
       <script src="/js/yonkers-websites-libs.min.js"></script>
