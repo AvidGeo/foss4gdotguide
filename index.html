@@ -1,0 +1,901 @@
+<!DOCTYPE html><!--[if IE 8]> <html class="ie ie8" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="ie ie9" lang="en"> <![endif]-->
+<html lang="en" class="no-js">
+  <head>
+    <title>{{ headline }}</title>
+    {% if storeIcon.cropUrl|not-empty%}
+      <link rel="icon" type="image/png"  href="{{ storeIcon.cropUrl }}" />
+    {% else if icon|not-empty %}
+      <link rel="icon" type="image/png"  href="{{ icon }}" />
+    {% endif %}
+    <meta name="name" content="content">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-Attendify-Template" content="{{_template.path}}:{{_template.sha}}">
+    <meta http-equiv="X-Attendify-Event" content="{{apikey}}:{{event}}">
+    <link rel="dns-prefetch" href="//s3.amazonaws.com">
+    {% if all linkAppStore|not-empty linkAppStoreId|not-empty %}
+      <meta name="apple-itunes-app" content="app-id={{linkAppStoreId}}, app-argument={{linkAppStore}}">
+    {% endif %}
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKjHiTQ94z3p3lENGxVRtNGggsdP6JqiQ"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic" rel="stylesheet">
+    <link href="/css/yonkers-websites.min.css" rel="stylesheet">
+    <!-- start_custom_color -->
+    <style type=text/css>
+      /*
+        Custom color scheme.
+        To change deprecated color scheme, please edit `yonkers-websites.css`, search for `.theme-` classes.
+      */
+      .clr-bg {
+        background-color: {{customBG|default:#398fe6}} !important;
+      }
+      .clr-bg-before:before {
+        background-color: {{customBG|default:#398fe6}} !important;
+        opacity: 0.3;
+      }
+      .clr-text,
+      .clr-text-chld,
+      .clr-text-chld * { color: {{customFG|default:#ffffff}} !important; }
+      ._clr-bc-hover:hover { border-color: {{customBG|default:#398fe6}}; }
+      .clr-bc-active.is-active { border-color: {{customBG|default:#398fe6}} !important; }
+      .clr-bc-inv-pseudo:after,
+      .clr-bc-inv-pseudo:before { border-color: {{customFG|default:#ffffff}} !important; }
+      .clr-fill { fill: {{customFG|default:#ffffff}} !important; }
+    </style>
+    <!-- end_custom_color -->
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" class="template-podium theme-{% if customBG %}custom{% else %}{{color|default:'custom'}}{% endif %} {% if settings.background_url|not-empty %}custom-background{% endif %}">
+    <div {% if settings.background_url|not-empty %}style="background-image: url({{settings.background_url}})"{% endif %} class="custom-background-layer"></div>
+
+    <main class="content">
+
+      <section class="uv-section uv-section--first-screen clr-bg-before {% if not settings.background_url %}clr-bg{% endif %}">
+
+        {% if settings.social_links|not-empty %}
+          <div class="uv-social__container  uv-social__container--pos-r-top">
+            {% if settings.social_links.linkedin %}
+            <a target="_blank" href="{{settings.social_links.linkedin}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#linkedin-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+            {% if settings.social_links.facebook %}
+            <a target="_blank" href="{{settings.social_links.facebook}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#facebook-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+            {% if settings.social_links.twitter %}
+            <a target="_blank" href="{{settings.social_links.twitter}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#twitter-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+            {% if settings.social_links.instagram %}
+            <a target="_blank" href="{{settings.social_links.instagram}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#instagram-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+            {% if settings.social_links.gplus %}
+            <a target="_blank" href="{{settings.social_links.gplus}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#google-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+            {% if settings.social_links.flickr %}
+            <a target="_blank" href="{{settings.social_links.flickr}}" class="uv-social__link uv-social__link--svg">
+              <svg viewBox="0 0 16 16" class="svg-icon clr-fill">
+                <use xlink:href="/img/font-svg.svg#flickr-1"></use>
+              </svg>
+            </a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <div class="uv-section__container">
+          {% if not settings.hide_icon %}
+            {% if storeIcon.cropUrl|not-empty%}
+              <img src="{{ storeIcon.cropUrl }}" class="event-logo m-bottom-4">
+            {% else %}
+              {% if icon|not-empty %}
+                <img src="{{ icon }}" class="event-logo m-bottom-4">
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          <div class="clr-text-chld">
+            <h1 class="uv-section__title m-bottom-2 clr-text">{{ headline }}</h1>
+            {% if not subtitle|is-nil %}{% if subtitle|not-empty %}
+            <div class="event-info m-bottom-2">
+              {{ subtitle }}
+            </div>{% endif %}
+            {% else %}
+              {% if any dates|not-empty location|not-empty %}
+              <div class="event-info m-bottom-2">
+                {% if dates|not-empty %}
+                  {{ dates }}
+                {% endif %}
+                {% if location|not-empty %}
+                  <span class="event-info__dot">&#8226;</span>
+                  {{ location }}
+                {% endif %}
+              </div>
+              {% endif %}
+            {% endif %}
+
+            {% if description|not-empty %}
+            <div class="description">{{ description }}</div>
+            {% endif %}
+          </div>
+
+          {% if settings.ticketing.is_button %}
+          <a target="_blank" href="{{ settings.ticketing.button_link }}" class="uv-button uv-button--get-ticket m-top-4">{{ settings.ticketing.button_label }}</a>
+          {% endif %}
+
+          {% if any linkAppStore|not-empty linkGooglePlay|not-empty %}
+          <div class="uv-button__container m-top-4">
+            {% if linkAppStore|not-empty %}
+            <a  target="_blank" href="{{ linkAppStore }}" class="uv-button uv-button--appstore" >
+              <span>Download<br>for iPhone</span>
+            </a>
+            {% endif %}
+            {% if linkGooglePlay|not-empty %}
+            <a target="_blank" href="{{ linkGooglePlay }}" class="uv-button uv-button--playstore" >
+              <span>Download<br>for Android</span>
+            </a>
+            {% endif %}
+          </div>
+          {% endif %}
+
+        </div>
+
+      </section>
+
+      {% for feature in features %}
+      {% ifunequal feature.speakers|length 0 %}
+      <section class="uv-section">
+        <div class="uv-section__container">
+          <div class="uv-section__header">
+            <h2 class="uv-section__title" >{{feature.name}}</h2>
+          </div>
+          <div class="uv-shortcard__container js-items-truncater">
+            {% for speaker in feature.speakers %}
+            <div data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker  details_link">
+              <div class="uv-shortcard__img-wrap">
+                {% if speaker.photo %}
+                <a class="uv-shortcard__img" style="background-image: url({{ speaker.photo.origin.cropUrl }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                <a style="background-color: {{speaker.id|color}}" class="uv-shortcard__img-placeholder">
+                  {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
+                  <span class="uv-shortcard__img-mask clr-bg clr-text"></span>
+                </a>
+                {% endif %}
+              </div>
+              <div class="uv-shortcard__title">{{speaker.firstName}} {{speaker.lastName}}</div>
+              {% if speaker.position %}
+              <div class="uv-shortcard__subtitle">{{ speaker.position }}</div>
+              {% endif %}
+              {% if speaker.company %}
+              <div class="uv-shortcard__subtitle">{{ speaker.company }}</div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endifunequal %}
+      {% endfor %}
+
+      {% for feature in features %}
+      {% ifunequal feature.members|length 0 %}
+      <section class="uv-section">
+        <div class="uv-section__container">
+          <div class="uv-section__header">
+            <h2 class="uv-section__title">{{ feature.name }}</h2>
+          </div>
+          <div class="uv-shortcard__container js-items-truncater">
+            {% for fmember in feature.members %}
+            {% with member=members|by-id:@fmember.id %}
+            <div data-link="{{member.id}}" class="uv-shortcard  uv-shortcard--speaker  details_link">
+              <div class="uv-shortcard__img-wrap">
+                {% if member.photo %}
+                <a class="uv-shortcard__img" style="background-image: url({{ member.photo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                <a style="background-color: {{member.id|color}}" class="uv-shortcard__img-placeholder">
+                  {{member.firstName|first|capitalize}}{{member.lastName|first|capitalize}}
+                  <span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% endif %}
+              </div>
+              <div class="uv-shortcard__title">{{member.firstName}} {{member.lastName}}</div>
+              {% if member.position %}
+              <div class="uv-shortcard__subtitle">{{ member.position }}</div>
+              {% endif %}
+              {% if member.company %}
+              <div class="uv-shortcard__subtitle">{{ member.company }}</div>
+              {% endif %}
+            </div>
+            {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endifunequal %}
+      {% endfor %}
+
+      {% for feature in features %}
+      {% ifunequal feature.sponsors|length 0 %}
+      <section class="uv-section">
+        <div class="uv-section__container">
+          <div class="uv-section__header">
+            <h2 class="uv-section__title">{{ feature.name }}</h2>
+          </div>
+          <div data-rows-xs="4" data-columns-sm="2" data-columns-md="3" class="uv-shortcard__container js-items-truncater">
+            {% for sp in feature.sponsors %}
+            {% with sponsor=sponsors|by-id:@sp.id %}
+            <div data-link="{{sponsor.id}}" class="uv-shortcard  uv-shortcard--rect  details_link">
+              <div class="uv-shortcard__img-wrap">
+                {% if sponsor.logo %}
+                <a class="uv-shortcard__img" style="background-image: url({{ sponsor.logo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                <a class="uv-shortcard__img-placeholder"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% endif %}
+              </div>
+              <div class="uv-shortcard__title">{{sponsor.company}}</div>
+              {% if sponsor.level %}
+              <div class="uv-shortcard__subtitle">{{ sponsor.level }}</div>
+              {% endif %}
+            </div>
+            {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endifunequal %}
+      {% endfor %}
+
+      {% for feature in features %}
+      {% ifunequal feature.companies|length 0 %}
+      <section class="uv-section">
+        <div class="uv-section__container">
+          <div class="uv-section__header">
+            <h2 class="uv-section__title">{{ feature.name }}</h2>
+          </div>
+          <div data-rows-xs="4" data-columns-sm="2" data-columns-md="3" class="uv-shortcard__container js-items-truncater">
+            {% for sp in feature.companies %}
+            {% with company=companies|by-id:@sp.id %}
+            <div data-link="{{company.id}}" class="uv-shortcard  uv-shortcard--rect  details_link">
+              <div class="uv-shortcard__img-wrap">
+                {% if company.logo %}
+                <a class="uv-shortcard__img" style="background-image: url({{ company.logo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                <a class="uv-shortcard__img-placeholder"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% endif %}
+              </div>
+              <div class="uv-shortcard__title">{{company.name}}</div>
+              {% if company.category %}
+              <div class="uv-shortcard__subtitle">{{ company.category }}</div>
+              {% endif %}
+            </div>
+            {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endifunequal %}
+      {% endfor %}
+
+      {% for feature in features %}
+      {% ifunequal feature.exhibitors|length 0 %}
+      <section class="uv-section">
+        <div class="uv-section__container">
+          <div class="uv-section__header">
+            <h2 class="uv-section__title">{{ feature.name }}</h2>
+          </div>
+          <div data-rows-xs="4" data-columns-sm="2" data-columns-md="3" class="uv-shortcard__container js-items-truncater">
+            {% for sp in feature.exhibitors %}
+            {% with exhibitor=exhibitors|by-id:@sp.id %}
+            <div data-link="{{exhibitor.id}}" class="uv-shortcard  uv-shortcard--rect  details_link">
+              <div class="uv-shortcard__img-wrap">
+                {% if exhibitor.logo %}
+                <a class="uv-shortcard__img" style="background-image: url({{ exhibitor.logo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                <a class="uv-shortcard__img-placeholder"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% endif %}
+              </div>
+              <div class="uv-shortcard__title">{{exhibitor.company}}</div>
+              {% if exhibitor.category %}
+              <div class="uv-shortcard__subtitle">{{ exhibitor.category }}</div>
+              {% endif %}
+            </div>
+            {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endifunequal %}
+      {% endfor %}
+
+      {% for feature in features %}
+      {% ifequal feature.type "feature-schedule" %}
+      {% if feature.days|not-empty %}
+      <div class="uv-section">
+        <div class="uv-section__header">
+          <h2 class="uv-section__title">{{ feature.name }}</h2>
+        </div>
+        <div class="uv-slider super-slider">
+          <div class="uv-slider__controls">
+            <span class="uv-slider__controls-item uv-slider__controls-item--prev schedule-dates-prev"></span>
+            <span class="uv-slider__controls-item uv-slider__controls-item--next schedule-dates-next"></span>
+          </div>
+          <ul class="uv-slider__pager schedule-dates">
+          {% for day in feature.days %}
+            {% if day.sessions|not-empty %}
+              <li data-slider="date" class="uv-slider__pager-item _clr-bc-hover clr-bc-active">{{ day.date|date:"dd MMMMM" }}</li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+          <div class="uv-slider__container">
+            <div class="schedule-days">
+              {% for day in feature.days %}
+              {% if day.sessions|not-empty %}
+              <div data-slider="day" class="uv-slider__schedule-item uv-card__stack">
+                {% for session in day.sessions|sort-by:"startTime" %}
+                <div data-link="{{session.id}}" class="session  session--full details_link">
+                  <div class="session__label clr-bg clr-text">
+                    <span>
+                    {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                    {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                    </span>
+                  </div>
+                  <div class="session__content">
+                    {% if session.title|not-empty %}
+                    <h5 class="session__title">{{ session.title }}</h5>
+                    {% endif %}
+                    <div class="session__body">
+                      <p class="session__info">
+                        <span class="session__time">
+                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        <span class="session__time-icon"></span>
+                        <span class="session__time">
+                        {% ifequal feature.settings.timeFormat|default:"24" "12" %}{{session.endTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal feature.settings.timeFormat|default:"24" "24" %} {{session.endTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        {% if session.location %}
+                        <span class="session__location">{{ session.location }}</span>
+                        {% endif %}
+                      </p>
+                      {% if session.speakers|not-empty %}
+                      <div class="session__speakers">
+                        {% for spid in session.speakers %}
+                        {% with speaker=speakers|by-id:@spid %}
+                        {% if speaker.photo%}
+                        <p class="uv-popover uv-popover--top">
+                          <a data-link="{{speaker.id}}" class="session__speakers-img details_link" style="background-image: url({{ speaker.photo }})"></a>
+                          <span class="uv-popover__body session__speakers-popover">
+                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
+                          </span>
+                        </p>
+                        {% else %}
+                        <p class="uv-popover uv-popover--top">
+                          <a data-link="{{speaker.id}}" style="background-color: {{speaker.id|color}}" class="session__speakers-placeholder details_link">
+                            {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
+                          </a>
+                          <span class="uv-popover__body session__speakers-popover">
+                            {{speaker.firstName}}&nbsp;{{speaker.lastName}}
+                          </span>
+                        </p>
+                        {% endif %}
+                        {% endwith %}
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% if session.track|not-empty %}
+                  <div class="tracks tracks--vertical">
+                    {% for tid in session.track %}
+                    {% with track=tracks|by-id:@tid %}
+                    <div class="tracks__item">
+                      <div style="background-color:{{track.color}};" class="tracks__bullet"></div>
+                      <div class="tracks__name">{{track.title}}</div>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endifequal %}
+      {% endfor %}
+
+      <script src="/js/yonkers-websites-libs.min.js"></script>
+      {% with feature=features|fmaps:0 %}
+      {% if feature.places|not-empty %}
+      <section data-id="{{feature.id}}" class="uv-section  uv-map"></section>
+      <script type="text/javascript">
+        $(function(){
+          if(FeatureGMap){
+            var places_{{feature.id}} = [
+              {% for p in feature.places %}
+              {% with place=places|by-id:@p.id %}
+                {{place|json|safe}}
+                {% if not forloop.last%},{% endif %}
+              {% endwith %}
+              {% endfor %}
+            ];
+            var map_{{feature.id}} = new FeatureGMap('[data-id={{feature.id}}]', places_{{feature.id}});
+          }
+        })
+      </script>
+      {% endif %}
+      {% endwith %}
+
+      {% if any settings.ticketing.is_widget settings.social_links|not-empty %}
+      <section class="uv-footer uv-footer--social">
+
+        {% if settings.ticketing.is_widget %}
+          <div class="ticket">
+            {{ settings.ticketing.widget|safe }}
+          </div>
+        {% endif %}
+
+        {% if any settings.ticketing.is_widget settings.social_links|not-empty %}
+          <div class="uv-social uv-social--colored">
+            <div class="uv-social__container">
+            {% if settings.social_links.linkedin %}
+              <a target="_blank" href="{{settings.social_links.linkedin}}" class="uv-social__link uv-social__link--linkedin"></a>
+            {% endif %}
+            {% if settings.social_links.facebook %}
+              <a target="_blank" href="{{settings.social_links.facebook}}" class="uv-social__link uv-social__link--facebook"></a>
+            {% endif %}
+            {% if settings.social_links.twitter %}
+              <a target="_blank" href="{{settings.social_links.twitter}}" class="uv-social__link uv-social__link--twitter"></a>
+            {% endif %}
+            {% if settings.social_links.instagram %}
+              <a target="_blank" href="{{settings.social_links.instagram}}" class="uv-social__link uv-social__link--instagram"></a>
+            {% endif %}
+            {% if settings.social_links.gplus %}
+              <a target="_blank" href="{{settings.social_links.gplus}}" class="uv-social__link uv-social__link--google"></a>
+            {% endif %}
+            {% if settings.social_links.flickr %}
+              <a target="_blank" href="{{settings.social_links.flickr}}" class="uv-social__link uv-social__link--flickr"></a>
+            {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </section>
+      {% endif %}
+
+      {% if show_powered_by %}
+      <section class="uv-footer">
+        <a target="_blank" href="https://attendify.com" class="uv-footer__brand-box">
+          Powered by&nbsp;<span class="uv-footer__logo"></span>
+        </a>
+      </section>
+      {% endif %}
+
+    </main>
+
+    <div id="data-storage">
+
+      <div class="speakers-container">
+        {% for feature in features %}
+        {% ifunequal feature.speakers|length 0 %}
+        {% for speaker in feature.speakers %}
+          <div id="{{speaker.id}}" class="details uv-card__mask">
+            <div class="uv-card">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if speaker.photo %}
+                <div class="uv-card__img" style="background-image: url({{ speaker.photo.origin.cropUrl }})"></div>
+                {% else %}
+                <span class="uv-card__img-placeholder" style="background-color: {{speaker.id|color}}">
+                  {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
+                </span>
+                {% endif %}
+                <h2 class="uv-card__title">{{speaker.firstName}} {{speaker.lastName}}</h2>
+                {% if speaker.position %}
+                <div class="uv-card__subtitle">{{ speaker.position }}</div>
+                {% endif %}
+                {% if speaker.company %}
+                <div class="uv-card__subtitle">{{ speaker.company }}</div>
+                {% endif %}
+                {% if speaker.description %}
+                <div class="uv-card__description safe-description">
+                {{ speaker.description|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if speaker.scheduleSessions|not-empty %}
+              <div class="schedule">
+                {% with sids=speaker.scheduleSessions %}
+                {% for session in sessions|sort-by:"startTime" %}
+                {% for sid in sids %}
+                {% ifequal sid session.id %}
+                <div class="schedule__day">
+                  <h3 class="schedule__date">{{session.startTime|date:"dd MMMMM"}}</h3>
+                  <div data-link="{{session.id}}" class="session  details_link  session--short">
+                    {% if session.title|not-empty %}
+                    <h4 class="session__title">{{ session.title }}</h4>
+                    {% endif %}
+                    <div class="session__body">
+                      <p class="session__info">
+                        <span class="session__time">
+                        {% ifequal session.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal session.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        <span class="session__time-icon"></span>
+                        <span class="session__time">
+                        {% ifequal session.timeFormat|default:"24" "12" %}{{session.endTime|date:"hh:mm a"}}{% endifequal%}
+                        {% ifequal session.timeFormat|default:"24" "24" %} {{session.endTime|date:"HH:mm"}} {% endifequal%}
+                        </span>
+                        {% if session.location %}
+                        <span class="session__location">{{session.location}}</span>
+                        {% endif %}
+                      </p>
+                      {% if session.track|not-empty %}
+                      <div class="tracks">
+                        {% for tid in session.track %}
+                        {% with track=tracks|by-id:@tid%}
+                        <div class="tracks__item">
+                          <div style="background-color:{{ track.color }};" class="tracks__bullet"></div>
+                          <div class="tracks__name">{{track.title}}</div>
+                        </div>
+                        {% endwith %}
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% endifequal %}
+                {% endfor %}
+                {% endfor %}
+                {% endwith %}
+              </div>
+              {% endif %}
+
+              {% if speaker.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in speaker.files %}
+                {% with file=speaker.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endfor %}
+        {% endifunequal %}
+        {% endfor %}
+      </div>
+
+      <div class="members-container">
+        {% for feature in features %}
+        {% ifunequal feature.members|length 0 %}
+        {% for fmember in feature.members %}
+        {% with member=members|by-id:@fmember.id %}
+          <div id="{{member.id}}" class="details uv-card__mask">
+            <div class="uv-card">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if member.photo %}
+                <div class="uv-card__img" style="background-image: url({{ member.photo }})"></div>
+                {% else %}
+                <span class="uv-card__img-placeholder" style="background-color: {{member.id|color}}">
+                  {{member.firstName|first|capitalize}}{{member.lastName|first|capitalize}}
+                </span>
+                {% endif %}
+                <h2 class="uv-card__title">{{member.firstName}} {{member.lastName}}</h2>
+                {% if member.position %}
+                <div class="uv-card__subtitle">{{ member.position }}</div>
+                {% endif %}
+                {% if member.company %}
+                <div class="uv-card__subtitle">{{ member.company }}</div>
+                {% endif %}
+                {% if member.description %}
+                <div class="uv-card__description safe-description">
+                {{ member.description|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if member.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in member.files %}
+                {% with file=member.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endwith %}
+        {% endfor %}
+        {% endifunequal %}
+        {% endfor %}
+      </div>
+
+      <div class="sponsors-container">
+        {% for feature in features %}
+        {% ifunequal feature.sponsors|length 0 %}
+        {% for sp in feature.sponsors %}
+        {% with sponsor=sponsors|by-id:@sp.id %}
+          <div id="{{sponsor.id}}" class="details uv-card__mask">
+
+            <div id="{{sponsor.id}}" class="uv-card  uv-card--sponsor">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if sponsor.logo %}
+                <div class="uv-card__img" style="background-image: url({{ sponsor.logo }})"></div>
+                {% else %}
+                <span class="uv-card__img-placeholder"></span>
+                {% endif %}
+                <h2 class="uv-card__title">{{ sponsor.company }}</h2>
+                {% if sponsor.level %}
+                <div class="uv-card__subtitle">{{ sponsor.level }}</div>
+                {% endif %}
+                {% if sponsor.profile %}
+                <div class="uv-card__description safe-description">
+                {{ sponsor.profile|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if sponsor.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in sponsor.files %}
+                {% with file=sponsor.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endwith %}
+        {% endfor %}
+        {% endifunequal %}
+        {% endfor %}
+      </div>
+
+      <div class="companies-container">
+        {% for feature in features %}
+        {% ifunequal feature.companies|length 0 %}
+        {% for sp in feature.companies %}
+        {% with company=companies|by-id:@sp.id %}
+          <div id="{{company.id}}" class="details uv-card__mask">
+            <div class="uv-card  uv-card--sponsor">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if company.logo %}
+                <div class="uv-card__img" style="background-image: url({{ company.logo }})"></div>
+                {% else %}
+                <span class="uv-card__img-placeholder"></span>
+                {% endif %}
+                <h2 class="uv-card__title">{{ company.name }}</h2>
+                {% if company.category %}
+                <div class="uv-card__subtitle">{{ company.category }}</div>
+                {% endif %}
+                {% if company.description %}
+                <div class="uv-card__description safe-description">
+                {{ company.description|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if company.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in company.files %}
+                {% with file=company.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endwith %}
+        {% endfor %}
+        {% endifunequal %}
+        {% endfor %}
+      </div>
+
+      <div class="exhibitors-container">
+        {% for feature in features %}
+        {% ifunequal feature.exhibitors|length 0 %}
+        {% for sp in feature.exhibitors %}
+        {% with exhibitor=exhibitors|by-id:@sp.id %}
+          <div id="{{exhibitor.id}}" class="details uv-card__mask">
+            <div class="uv-card  uv-card--sponsor">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if exhibitor.logo %}
+                <div class="uv-card__img" style="background-image: url({{ exhibitor.logo }})"></div>
+                {% else %}
+                <span class="uv-card__img-placeholder"></span>
+                {% endif %}
+                <h2 class="uv-card__title">{{ exhibitor.company }}</h2>
+                {% if exhibitor.category %}
+                <div class="uv-card__subtitle">{{ exhibitor.category }}</div>
+                {% endif %}
+                {% if exhibitor.profile %}
+                <div class="uv-card__description">
+                {{ exhibitor.profile|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if exhibitor.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in exhibitor.files %}
+                {% with file=exhibitor.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endwith %}
+        {% endfor %}
+        {% endifunequal %}
+        {% endfor %}
+      </div>
+
+      <div class="sessions-container">
+        {% if days|not-empty %}
+        {% for day in days %}
+        {% if day.sessions|not-empty %}
+        {% for session in day.sessions|sort-by:"startTime" %}
+          <div id="{{session.id}}" class="details uv-card__mask">
+            <div class="uv-card uv-card--session">
+              <span class="uv-card__close-icon"></span>
+              <div class="uv-card__header">
+                {% if session.track|not-empty %}
+                <div class="tracks tracks--opened">
+                  {% for tid in session.track %}
+                  {% with track=tracks|by-id:@tid%}
+                  <div class="tracks__item">
+                    <div style="background-color:{{ track.color }};" class="tracks__bullet"></div>
+                    <div class="tracks__name">{{track.title}}</div>
+                  </div>
+                  {% endwith %}
+                  {% endfor %}
+                </div>
+                {% endif %}
+                {% if session.title|not-empty %}
+                <h2 class="uv-card__title">{{ session.title }}</h2>
+                {% endif %}
+                <p class="session__info">
+                  <span class="session__time">
+                  {% ifequal session.timeFormat|default:"24" "12" %}{{session.startTime|date:"hh:mm a"}}{% endifequal%}
+                  {% ifequal session.timeFormat|default:"24" "24" %} {{session.startTime|date:"HH:mm"}} {% endifequal%}
+                  </span>
+                  <span class="session__time-icon"></span>
+                  <span class="session__time">
+                  {% ifequal session.timeFormat|default:"24" "12" %}{{session.endTime|date:"hh:mm a"}}{% endifequal%}
+                  {% ifequal session.timeFormat|default:"24" "24" %} {{session.endTime|date:"HH:mm"}} {% endifequal%}
+                  </span>
+                  {% if session.location %}
+                  <span class="session__location">{{ session.location }}</span>
+                  {% endif %}
+                </p>
+                {% if session.description %}
+                <div class="uv-card__description safe-description">
+                {{ session.description|safe }}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if session.speakers|not-empty %}
+              <div class="session__speakers-box">
+                <h3 class="uv-card__title">Speakers</h3>
+                <div class="uv-shortcard__container">
+                  {% for spid in session.speakers %}
+                  {% with speaker=speakers|by-id:@spid %}
+                  <div data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker details_link">
+                    <div class="uv-shortcard__img-wrap">
+                      {% if speaker.photo %}
+                      <a class="uv-shortcard__img" style="background-image: url({{ speaker.photo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                      {% else %}
+                      <a style="background-color: {{speaker.id|color}}" class="uv-shortcard__img-placeholder">
+                        {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
+                        <span class="uv-shortcard__img-mask clr-bg clr-text"></span>
+                      </a>
+                      {% endif %}
+                    </div>
+                    <div class="uv-shortcard__title">{{speaker.firstName}} {{speaker.lastName}}</div>
+                    {% if speaker.position %}
+                    <div class="uv-shortcard__subtitle">{{ speaker.position }}</div>
+                    {% endif %}
+                    {% if speaker.company %}
+                    <div class="uv-shortcard__subtitle">{{ speaker.company }}</div>
+                    {% endif %}
+                  </div>
+                  {% endwith %}
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+              {% if session.files|not-empty %}{% if not settings.hide_files %}
+              <div class="files__container">
+                {% for fid in session.files %}
+                {% with file=session.files|by-id:@fid.id %}
+                <div class="files">
+                  <span class="files__icon files__icon--{{file.name|file-ext}}"></span>
+                  <span class="files__name">{{ file.name }}</span>
+                  <a href="{{ file.url }}" class="files__link" target="_blank">Download Link</a>
+                </div>
+                {% endwith %}
+                {% endfor %}
+              </div>
+              {% endif %}{% endif %}
+
+            </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+
+    <script src="/js/yonkers-websites.min.js"></script>
+
+    <script type="text/javascript">
+    {% if settings.analytics %}
+      {{ settings.analytics|safe }}
+    {% endif %}
+    </script>
+
+
+  </body>
+</html>
