@@ -614,9 +614,13 @@
                 {% if member.photo %}
                 <div class="uv-card__img" style="background-image: url({{ member.photo }})"></div>
                 {% else %}
+                {% if speaker.email %}
+                <div class="uv-card__img" style="background-image: url('https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"></div>
+                {% else %}
                 <span class="uv-card__img-placeholder" style="background-color: {{member.id|color}}">
                   {{member.firstName|first|capitalize}}{{member.lastName|first|capitalize}}
                 </span>
+                {% endif %}
                 {% endif %}
                 <h2 class="uv-card__title">{{member.firstName}} {{member.lastName}}</h2>
                 {% if member.position %}
