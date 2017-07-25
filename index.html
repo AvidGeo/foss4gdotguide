@@ -607,7 +607,7 @@
         {% ifunequal feature.members|length 0 %}
         {% for fmember in feature.members %}
         {% with member=members|by-id:@fmember.id %}
-          <div id="{{member.id}}" class="details uv-card__mask">
+          <div data-fname="{member.firstName}}"  data-lname="{{member.lastName}}" id="{{member.id}}" class="details uv-card__mask">
             <div class="uv-card">
               <span class="uv-card__close-icon"></span>
               <div class="uv-card__header">
