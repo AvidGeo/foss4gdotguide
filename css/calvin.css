@@ -1,0 +1,13 @@
+.search {
+	padding:6px 15px 6px 30px;
+	margin:3px;
+	/*background: url('./images/search.png') no-repeat 8px 6px; */
+  border:1px solid #acb1b7;
+ background-color:#fcfcfc;
+}
+}
+.rounded {
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}

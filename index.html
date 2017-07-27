@@ -22,6 +22,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKjHiTQ94z3p3lENGxVRtNGggsdP6JqiQ"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic" rel="stylesheet">
     <link href="/css/yonkers-websites.min.css" rel="stylesheet">
+    <link href="/css/calvin.css" rel="stylesheet">
     <!-- start_custom_color -->
     <style type=text/css>
       /*
@@ -267,18 +268,23 @@
         <div class="uv-section__container">
           <div class="uv-section__header">
             <h2 class="uv-section__title" >{{feature.name}}</h2>
+            <input id="person-search" type="text" class="search rounded" placeholder="Search...">
           </div>
-          <div class="uv-shortcard__container js-items-truncater">
+          <div class="uv-shortcard__container js-items-truncater speaker_list_calvin">
             {% for speaker in feature.speakers %}
-            <div data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker  details_link">
+            <div data-link="{{speaker.id}}" data-fname="{{speaker.firstName}}"  data-lname="{{speaker.lastName}}" data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker  details_link calvin_member_link">
               <div class="uv-shortcard__img-wrap">
                 {% if speaker.photo %}
                 <a class="uv-shortcard__img" style="background-image: url({{ speaker.photo.origin.cropUrl }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                {% else %}
+                {% if speaker.email %}
+                  <a class="uv-shortcard__img" style="background-image: url(https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
                 {% else %}
                 <a style="background-color: {{speaker.id|color}}" class="uv-shortcard__img-placeholder">
                   {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
                   <span class="uv-shortcard__img-mask clr-bg clr-text"></span>
                 </a>
+                {% endif %}
                 {% endif %}
               </div>
               <div class="uv-shortcard__title">{{speaker.firstName}} {{speaker.lastName}}</div>
@@ -306,13 +312,13 @@
           <div class="uv-shortcard__container js-items-truncater">
             {% for fmember in feature.members %}
             {% with member=members|by-id:@fmember.id %}
-            <div data-link="{{member.id}}" data-fname="{member.firstName}}"  data-lname="{{member.lastName}}" class="uv-shortcard  uv-shortcard--speaker  details_link">
+            <div data-link="{{member.id}}" data-fname="{{member.firstName}}"  data-lname="{{member.lastName}}" class="uv-shortcard  uv-shortcard--speaker calvin_other_memberlink details_link">
               <div class="uv-shortcard__img-wrap">
                 {% if member.photo %}
                 <a class="uv-shortcard__img" style="background-image: url({{ member.photo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
                 {% else %}
                 {% if member.email %}
-                <a class="uv-shortcard__img" style="background-image: url(url('https://www.gravatar.com/avatar/{{member.email|lower|hash:"md5"}}?s=120&d=retro))"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                <a class="uv-shortcard__img" style="background-image: url(https://www.gravatar.com/avatar/{{member.email|lower|hash:"md5"}}?s=120&d=retro)"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
                   {% else %}
                 <a style="background-color: {{member.id|color}}" class="uv-shortcard__img-placeholder">
                   {{member.firstName|first|capitalize}}{{member.lastName|first|capitalize}}
@@ -503,7 +509,7 @@
         {% for feature in features %}
         {% ifunequal feature.speakers|length 0 %}
         {% for speaker in feature.speakers %}
-          <div id="{{speaker.id}}" class="details uv-card__mask">
+          <div id="{{speaker.id}}" class="details uv-card__mask calvin_test_speaker">
             <div class="uv-card">
               <span class="uv-card__close-icon"></span>
               <div class="uv-card__header">
@@ -511,7 +517,7 @@
                 <div class="uv-card__img" style="background-image: url({{ speaker.photo.origin.cropUrl }})"></div>
                 {% else %}
                 {% if speaker.email %}
-                <div class="uv-card__img" style="background-image: url('https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"></div>
+                <div class="uv-card__img" style="background-image: url(https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"></div>
                 {% else %}
                 <span class="uv-card__img-placeholder" style="background-color: {{speaker.id|color}}">
                   {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
@@ -607,7 +613,7 @@
         {% ifunequal feature.members|length 0 %}
         {% for fmember in feature.members %}
         {% with member=members|by-id:@fmember.id %}
-          <div data-fname="{member.firstName}}"  data-lname="{{member.lastName}}" id="{{member.id}}" class="details uv-card__mask">
+          <div data-fname="{{member.firstName}}"  data-lname="{{member.lastName}}" id="{{member.id}}" class="details uv-card__mask calvin_test_member">
             <div class="uv-card">
               <span class="uv-card__close-icon"></span>
               <div class="uv-card__header">
@@ -615,7 +621,7 @@
                 <div class="uv-card__img" style="background-image: url({{ member.photo }})"></div>
                 {% else %}
                 {% if member.email %}
-                <div class="uv-card__img" style="background-image: url('https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"></div>
+                <div class="uv-card__img" style="background-image: url(https://www.gravatar.com/avatar/{{member.email|lower|hash:"md5"}}?s=120&d=retro)"></div>
                 {% else %}
                 <span class="uv-card__img-placeholder" style="background-color: {{member.id|color}}">
                   {{member.firstName|first|capitalize}}{{member.lastName|first|capitalize}}
@@ -851,15 +857,19 @@
                 <div class="uv-shortcard__container">
                   {% for spid in session.speakers %}
                   {% with speaker=speakers|by-id:@spid %}
-                  <div data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker details_link">
+                  <div  data-fname="{{speaker.firstName}}"  data-lname="{{speaker.lastName}}" data-link="{{speaker.id}}" class="uv-shortcard  uv-shortcard--speaker details_link calvin_search_card">
                     <div class="uv-shortcard__img-wrap">
                       {% if speaker.photo %}
                       <a class="uv-shortcard__img" style="background-image: url({{ speaker.photo }})"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
+                      {% else %}
+                      {% if speaker.email %}
+                      <a class="uv-shortcard__img" style="background-image: url(https://www.gravatar.com/avatar/{{speaker.email|lower|hash:"md5"}}?s=120&d=retro)"><span class="uv-shortcard__img-mask clr-bg clr-text"></span></a>
                       {% else %}
                       <a style="background-color: {{speaker.id|color}}" class="uv-shortcard__img-placeholder">
                         {{speaker.firstName|first|capitalize}}{{speaker.lastName|first|capitalize}}
                         <span class="uv-shortcard__img-mask clr-bg clr-text"></span>
                       </a>
+                      {% endif %}
                       {% endif %}
                     </div>
                     <div class="uv-shortcard__title">{{speaker.firstName}} {{speaker.lastName}}</div>
@@ -901,6 +911,7 @@
     </div>
 
     <script src="/js/yonkers-websites.min.js"></script>
+    <script src="/js/calvin.js"></script>
     <script type="text/javascript">
     {% if settings.analytics %}
       {{ settings.analytics|safe }}
